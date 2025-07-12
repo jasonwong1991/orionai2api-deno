@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__sequential-thinking__sequentialthinking",
+      "Bash(deno task:*)",
+      "Bash(deno fmt:*)",
+      "Bash(chmod:*)",
+      "Bash(./debug-env.ts)",
+      "Bash(deno run:*)",
+      "Bash(./start.sh:*)",
+      "Bash(export:*)",
+      "Bash(pkill:*)",
+      "Bash(docker system prune:*)",
+      "Bash(docker pull:*)",
+      "Bash(docker compose:*)",
+      "Bash(curl:*)",
+      "Bash(open:*)",
+      "Bash(deno:*)"
+    ],
+    "deny": []
+  }
+}
