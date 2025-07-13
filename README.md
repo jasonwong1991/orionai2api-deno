@@ -37,9 +37,8 @@ docker-compose up
 
 ## 📖 详细文档
 
-- [安装指南](./INSTALL.md) - 详细的安装和配置说明
-- [API 文档](./docs/API.md) - API 接口说明
-- [项目结构](./PROJECT_STRUCTURE.md) - 代码结构说明
+- [安装指南](./docs/INSTALL.md) - 详细的安装和配置说明
+- [项目结构](./docs/PROJECT_STRUCTURE.md) - 代码结构说明
 
 ## ✨ 主要特性
 
@@ -107,7 +106,7 @@ const response = await fetch('http://localhost:3333/v1/chat/completions', {
 
 ## 🔍 故障排除
 
-1. **Deno 未安装**: 参考 [安装指南](./INSTALL.md)
+1. **Deno 未安装**: 参考 [安装指南](./docs/INSTALL.md)
 2. **权限错误**: `chmod +x start.sh`
 3. **端口占用**: 修改 `.env` 中的 `PORT` 配置
 4. **环境变量格式**: 确保 JSON 数组格式正确
