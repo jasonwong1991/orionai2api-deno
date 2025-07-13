@@ -521,11 +521,10 @@ export class ProxyService {
     response: Response,
     model: string,
     requestId: string,
-    createdTime: number
   ): Promise<ChatCompletionResponse> {
     try {
       const responseData = await response.json();
-      return this.convertToOpenAIResponse(model, responseData, requestId, createdTime);
+      return this.convertToOpenAIResponse(model, responseData, requestId);
     } catch (error) {
       logger.error(`Failed to parse response: ${error.message}`);
       throw new Error(`Failed to parse response: ${error.message}`);
@@ -663,15 +662,28 @@ export class ProxyService {
     return null;
   }
 
-  private convertStreamToOpenAI(data: Record<string, unknown>, requestId: string, model: string, createdTime: number): ChatCompletionStreamResponse {
-    const choices = data.choices || [];
-    if (choices.length === 0) {
+  private convertStreamToOpenAI(
+    data: Record<string, unknown> | string | undefined, 
+    requestId: string, 
+    model: string, 
+    createdTime: number
+  ): ChatCompletionStreamResponse {
+    // 如果data是undefined或string，返回空内容的chunk
+    if (typeof data === 'undefined' || typeof data === 'string') {
+      return createStreamChunk(model, "", requestId, createdTime);
+    }
+
+    // 现在data被确认为Record<string, unknown>类型
+    const dataObj = data as Record<string, unknown>;
+    const choices = dataObj.choices as Array<Record<string, unknown>> || [];
+    
+    if (!Array.isArray(choices) || choices.length === 0) {
       return createStreamChunk(model, "", requestId, createdTime);
     }
 
     const choice = choices[0];
-    const delta = choice.delta as Record<string, unknown>;
-    const content = delta.content as string || "";
+    const delta = choice.delta as Record<string, unknown> || {};
+    const content = (delta.content as string) || "";
     const finishReason = choice.finish_reason as string;
 
     return createStreamChunk(model, content, requestId, createdTime, finishReason);

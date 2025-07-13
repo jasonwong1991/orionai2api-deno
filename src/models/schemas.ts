@@ -218,7 +218,7 @@ export function createStreamChunk(
         delta: {
           content,
         },
-        finish_reason: finishReason || null,
+        finish_reason: finishReason || undefined,
       },
     ],
     usage,

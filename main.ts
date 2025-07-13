@@ -83,7 +83,7 @@ function createApp(): Promise<Application> {
   app.use(router.routes());
   app.use(router.allowedMethods());
 
-  return app;
+  return Promise.resolve(app);
 }
 
 async function startServer() {
