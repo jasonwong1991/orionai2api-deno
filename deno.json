@@ -31,8 +31,6 @@
     }
   },
   "lint": {
-    "files": {
-      "include": ["src/", "*.ts", "*.js"]
-    }
+    "include": ["src/", "*.ts", "*.js"]
   }
 }

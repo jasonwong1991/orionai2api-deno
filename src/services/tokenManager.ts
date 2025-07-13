@@ -32,7 +32,7 @@ export class TokenManager {
   private readonly maxFailures = 5;
   private readonly recoveryTimeMs = 10 * 60 * 1000; // 10 minutes
 
-  async initialize(): Promise<void> {
+  initialize(): void {
     this.tokens = config.tokenPool.map((token) => ({
       token,
       failureCount: 0,
@@ -42,7 +42,7 @@ export class TokenManager {
     logger.info(`TokenManager initialized with ${this.tokens.length} tokens`);
   }
 
-  async getToken(): Promise<string | null> {
+  getToken(): string | null {
     if (this.tokens.length === 0) {
       logger.error("No tokens available in the pool");
       return null;
@@ -76,7 +76,7 @@ export class TokenManager {
     });
   }
 
-  async markTokenFailed(token: string, errorMsg = ""): Promise<void> {
+  markTokenFailed(token: string, errorMsg = ""): void {
     const tokenStatus = this.tokens.find((t) => t.token === token);
     if (!tokenStatus) return;
 
@@ -92,7 +92,7 @@ export class TokenManager {
     }
   }
 
-  async markTokenSuccess(token: string): Promise<void> {
+  markTokenSuccess(token: string): void {
     const tokenStatus = this.tokens.find((t) => t.token === token);
     if (!tokenStatus) return;
 

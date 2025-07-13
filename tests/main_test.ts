@@ -2,7 +2,7 @@
  * Basic tests for the LLM Proxy API
  */
 
-import { assertEquals, assertExists } from "https://deno.land/std@0.208.0/assert/mod.ts";
+import { assertExists } from "https://deno.land/std@0.208.0/assert/mod.ts";
 import { createApp } from "../main.ts";
 
 Deno.test("Application should create successfully", async () => {

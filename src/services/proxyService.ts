@@ -9,7 +9,6 @@ import {
   ChatCompletionRequest,
   ChatCompletionResponse,
   ChatCompletionStreamResponse,
-  createErrorResponse,
   createChatCompletionResponse,
   createStreamChunk,
   generateRequestId,
@@ -575,6 +574,7 @@ export class ProxyService {
           } catch (error) {
             // Silently handle close errors in Docker environment
             streamClosed = true;
+            logger.error(`Failed to close stream: ${error.message}`);
           }
         };
 
@@ -629,7 +629,7 @@ export class ProxyService {
     });
   }
 
-  private parseSSELine(line: string): { type: "data" | "done"; data?: any } | null {
+  private parseSSELine(line: string): { type: "data" | "done"; data?: string } | null {
     if (!line.trim()) return null;
 
     // Handle SSE format: "message\t{json_data}\t"
@@ -663,28 +663,27 @@ export class ProxyService {
     return null;
   }
 
-  private convertStreamToOpenAI(data: any, requestId: string, model: string, createdTime: number): ChatCompletionStreamResponse {
+  private convertStreamToOpenAI(data: Record<string, unknown>, requestId: string, model: string, createdTime: number): ChatCompletionStreamResponse {
     const choices = data.choices || [];
     if (choices.length === 0) {
       return createStreamChunk(model, "", requestId, createdTime);
     }
 
     const choice = choices[0];
-    const delta = choice.delta || {};
-    const content = delta.content || "";
-    const finishReason = choice.finish_reason;
+    const delta = choice.delta as Record<string, unknown>;
+    const content = delta.content as string || "";
+    const finishReason = choice.finish_reason as string;
 
     return createStreamChunk(model, content, requestId, createdTime, finishReason);
   }
 
   private convertToOpenAIResponse(
     model: string,
-    responseData: any,
+    responseData: Record<string, unknown>,
     requestId: string,
-    createdTime: number
   ): ChatCompletionResponse {
     // Extract content from response
-    const choices = responseData.choices || [];
+    const choices = responseData.choices as Array<{ message?: { content?: string }; text?: string }>;
     let content = "";
     
     if (choices.length > 0) {

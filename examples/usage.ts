@@ -62,10 +62,11 @@ async function testStreamingResponse() {
             const parsed = JSON.parse(data);
             const content = parsed.choices[0]?.delta?.content;
             if (content) {
-              process.stdout.write(content);
+              Deno.stdout.write(new TextEncoder().encode(content));
             }
           } catch (e) {
             // Ignore parsing errors
+            console.error('Error parsing JSON:', e);
           }
         }
       }
@@ -100,7 +101,7 @@ if (import.meta.main) {
     await healthCheck();
     await listModels();
     await testWithFetch();
-    // await testStreamingResponse(); // 取消注释以测试流式响应
+    await testStreamingResponse(); // 取消注释以测试流式响应
   } catch (error) {
     console.error('Error:', error);
   }

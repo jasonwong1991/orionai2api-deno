@@ -15,7 +15,7 @@ import { config } from "../core/config.ts";
 
 const logger = log.getLogger();
 
-export async function listModels(ctx: Context) {
+export function listModels(ctx: Context) {
   try {
     const models = config.availableModels.map((modelId) =>
       createModelInfo(modelId, "proxy")

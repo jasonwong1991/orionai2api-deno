@@ -12,7 +12,7 @@ import { HealthStatus } from "../models/schemas.ts";
 const logger = log.getLogger();
 const startTime = Date.now();
 
-export async function rootHandler(ctx: Context) {
+export function rootHandler(ctx: Context) {
   ctx.response.body = {
     name: config.appName,
     description: "OpenAI-compatible LLM Proxy API (Deno Version)",
@@ -26,7 +26,7 @@ export async function rootHandler(ctx: Context) {
   };
 }
 
-export async function healthCheck(ctx: Context) {
+export function healthCheck(ctx: Context) {
   try {
     const tokenPoolStatus = tokenManager.getPoolStatus();
     const stats = proxyService.getStats();
@@ -63,7 +63,7 @@ export async function healthCheck(ctx: Context) {
   }
 }
 
-export async function docsHandler(ctx: Context) {
+export function docsHandler(ctx: Context) {
   const docs = `
 <!DOCTYPE html>
 <html>

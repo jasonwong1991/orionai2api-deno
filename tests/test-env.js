@@ -10,7 +10,7 @@ console.log("Testing .env file parsing...");
 const envPath = path.join(__dirname, '.env');
 if (!fs.existsSync(envPath)) {
   console.log("✗ .env file not found at:", envPath);
-  process.exit(1);
+  Deno.exit(1);
 }
 
 const envContent = fs.readFileSync(envPath, 'utf8');
@@ -22,7 +22,7 @@ const modelsLine = lines.find(line => line.startsWith('AVAILABLE_MODELS='));
 
 if (!modelsLine) {
   console.log("✗ AVAILABLE_MODELS not found in .env file");
-  process.exit(1);
+  Deno.exit(1);
 }
 
 const modelsJson = modelsLine.substring('AVAILABLE_MODELS='.length);

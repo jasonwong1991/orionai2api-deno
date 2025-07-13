@@ -63,7 +63,7 @@ await log.setup({
 
 const logger = log.getLogger();
 
-async function createApp(): Promise<Application> {
+function createApp(): Promise<Application> {
   const app = new Application();
 
   // Global error handler
