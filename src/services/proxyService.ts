@@ -458,7 +458,7 @@ export class ProxyService {
           if (request.stream) {
             return this.handleStreamResponse(response, requestId, request.model, createdTime);
           } else {
-            return await this.handleNonStreamResponse(response, request.model, requestId, createdTime);
+            return await this.handleNonStreamResponse(response, request.model, requestId);
           }
         } else if (response.status === 401 || response.status === 403) {
           // Auth error, mark token failed and try next token
